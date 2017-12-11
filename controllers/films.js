@@ -3,6 +3,7 @@ var films = require('../client/src/models/films');
 var Film = require('../client/src/models/film');
 var Review = require('../client/src/models/review');
 
+var films = films();
 var express = require("express");
 var filmRouter = new express.Router();
 
@@ -11,16 +12,16 @@ filmRouter.get("/", function(req, res) {
 });
 
 filmRouter.post("/", function(req, res) {
-  films.push(req.body.film);
+  films.push(req.body);
   res.json(films);
 });
 
 filmRouter.get("/:id", function(req, res) {
-  res.json({ data: films[req.params.id]});
+  res.json(films[req.params.id]);
 });
 // edit
 filmRouter.put("/:id", function(req, res) {
-  films[req.params.id] = req.body.film;
+  films[req.params.id] = req.body;
   res.json(films);
 });
 
@@ -28,3 +29,5 @@ filmRouter.delete("/:id", function(req, res) {
   films.splice(req.params.id, 1);
   res.json(films);
 });
+
+module.exports = filmRouter;
